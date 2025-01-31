@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranks do Servidor</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        body {
+            background-color: #1a1a2e;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            font-family: 'Press Start 2P', cursive;
+            background: linear-gradient(to bottom, #ff66c4, #4169e1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-shadow: 2px 2px #000;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .back-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        .rank-container {
+            width: 80%;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        th {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+    <script>
+        async function fetchRanks() {
+            try {
+                const response = await fetch('https://elielson881.github.io/mankey/ranks.html');  // Substitua pelo URL correto do seu backend
+                const ranks = await response.json();
+                
+                const tableBody = document.querySelector('#rank-table-body');
+                tableBody.innerHTML = ''; // Limpa a tabela antes de atualizar os dados
+
+                ranks.forEach(rank => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${rank.playerName}</td>
+                        <td>${rank.kills}</td>
+                        <td>${rank.deaths}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar os ranks:', error);
+            }
+        }
+
+        // Chama a função para carregar os ranks quando a página for carregada
+        window.onload = fetchRanks;
+    </script>
+</head>
+<body>
+    <a href="index.html" class="back-button">Voltar</a>
+    <h1>Ranks do Servidor</h1>
+    <2>ranks esta em beta ainda.</2>
+    <div class="rank-container">
+        <table>
+            <tr>
+                <th>Jogador</th>
+                <th>Kills</th>
+                <th>Mortes</th>
+            </tr>
+            <tbody id="rank-table-body">
+                <!-- As linhas de rank serão inseridas aqui dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
